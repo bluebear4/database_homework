@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.program.database_homework.mapper.UserLinkAddressMapper">
+  <resultMap id="BaseResultMap" type="com.program.database_homework.domain.entity.UserLinkAddress">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <id column="address_id" jdbcType="INTEGER" property="addressId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from user_link_address
+    where user_id = #{userId,jdbcType=INTEGER}
+      and address_id = #{addressId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.program.database_homework.domain.entity.UserLinkAddress">
+    insert into user_link_address (user_id, address_id)
+    values (#{userId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, address_id
+    from user_link_address
+  </select>
+</mapper>

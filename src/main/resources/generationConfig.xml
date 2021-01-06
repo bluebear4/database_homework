@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <!-- MyBatis3Simple为设置简单生成策略 -->
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple">
+
+        <!-- 取消自动生成注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- jdbcConnection:指定如何连接到目标数据库 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+
+                        connectionURL="jdbc:mysql://localhost:3306/databasehomework?characterEncoding=utf-8&amp;serverTimezone=GMT%2B8&amp;allowMultiQueries=true"
+                        userId="root"
+                        password="Mysql">
+            <!-- 防止生成错误  -->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和
+               NUMERIC 类型解析为java.math.BigDecimal
+         -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- javaModelGenerator：指定javaBean生成策略
+              targetPackage：目标的包名
+              targetProject：目标工程
+         -->
+        <javaModelGenerator targetPackage="com.program.database_homework.domain.entity" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- sqlMapGenerator：指定sql映射生成策略 -->
+        <sqlMapGenerator targetPackage="com.program.database_homework.mapper" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- javaClientGenerator：指定mapper接口所在的位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.program.database_homework.mapper" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- table：指定要逆向分析哪些表，根据表创建javaBean -->
+        <table tableName="address" />
+        <table tableName="food"/>
+        <table tableName="order" />
+        <table tableName="order_link_food"/>
+        <table tableName="order_link_set_meal"/>
+        <table tableName="set_meal"/>
+        <table tableName="set_meal_link_food"/>
+        <table tableName="type"/>
+        <table tableName="user"/>
+        <table tableName="user_link_address"/>
+    </context>
+
+</generatorConfiguration>

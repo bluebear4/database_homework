@@ -1,0 +1,17 @@
+server:
+  port: 2333
+spring:
+  datasource:
+    # 如果存在多个数据源，监控的时候可以通过名字来区分开来
+    name: mysql
+    # 连接数据库的url
+    url: jdbc:mysql://localhost:3306/database_homework?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    # 连接数据库的账号
+    username: root
+    # 连接数据库的密码
+    password: Mysql
+
+mybatis:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: com.program.picture.domain.entity
+

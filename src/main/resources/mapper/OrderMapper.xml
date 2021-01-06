@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.program.database_homework.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.program.database_homework.domain.entity.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="is_finished" jdbcType="INTEGER" property="isFinished" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.program.database_homework.domain.entity.Order">
+    insert into order (id, user_id, address_id, 
+      creat_time, finish_time, price, 
+      is_finished)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{price,jdbcType=DECIMAL}, 
+      #{isFinished,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.program.database_homework.domain.entity.Order">
+    update order
+    set user_id = #{userId,jdbcType=INTEGER},
+      address_id = #{addressId,jdbcType=INTEGER},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=DECIMAL},
+      is_finished = #{isFinished,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, address_id, creat_time, finish_time, price, is_finished
+    from order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id, address_id, creat_time, finish_time, price, is_finished
+    from order
+  </select>
+  <resultMap id="BaseResultMap" type="com.program.database_homework.domain.entity.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="is_finished" jdbcType="INTEGER" property="isFinished" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.program.database_homework.domain.entity.Order">
+    insert into order (id, user_id, address_id, 
+      creat_time, finish_time, price, 
+      is_finished)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{price,jdbcType=DECIMAL}, 
+      #{isFinished,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.program.database_homework.domain.entity.Order">
+    update order
+    set user_id = #{userId,jdbcType=INTEGER},
+      address_id = #{addressId,jdbcType=INTEGER},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=DECIMAL},
+      is_finished = #{isFinished,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, address_id, creat_time, finish_time, price, is_finished
+    from order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id, address_id, creat_time, finish_time, price, is_finished
+    from order
+  </select>
+  <resultMap id="BaseResultMap" type="com.program.database_homework.domain.entity.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="is_finished" jdbcType="INTEGER" property="isFinished" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.program.database_homework.domain.entity.Order">
+    insert into order (id, user_id, address_id, 
+      creat_time, finish_time, price, 
+      is_finished)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
+      #{creatTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{price,jdbcType=DECIMAL}, 
+      #{isFinished,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.program.database_homework.domain.entity.Order">
+    update order
+    set user_id = #{userId,jdbcType=INTEGER},
+      address_id = #{addressId,jdbcType=INTEGER},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=DECIMAL},
+      is_finished = #{isFinished,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, address_id, creat_time, finish_time, price, is_finished
+    from order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id, address_id, creat_time, finish_time, price, is_finished
+    from order
+  </select>
+</mapper>

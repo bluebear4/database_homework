@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.program.database_homework.mapper.OrderLinkSetMealMapper">
+  <resultMap id="BaseResultMap" type="com.program.database_homework.domain.entity.OrderLinkSetMeal">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <id column="set_meal_id" jdbcType="INTEGER" property="setMealId" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from order_link_set_meal
+    where order_id = #{orderId,jdbcType=INTEGER}
+      and set_meal_id = #{setMealId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.program.database_homework.domain.entity.OrderLinkSetMeal">
+    insert into order_link_set_meal (order_id, set_meal_id, count
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{setMealId,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.program.database_homework.domain.entity.OrderLinkSetMeal">
+    update order_link_set_meal
+    set count = #{count,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=INTEGER}
+      and set_meal_id = #{setMealId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select order_id, set_meal_id, count
+    from order_link_set_meal
+    where order_id = #{orderId,jdbcType=INTEGER}
+      and set_meal_id = #{setMealId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select order_id, set_meal_id, count
+    from order_link_set_meal
+  </select>
+</mapper>
