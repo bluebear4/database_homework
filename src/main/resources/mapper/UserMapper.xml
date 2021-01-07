@@ -7,7 +7,7 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
     <result column="is_admin" jdbcType="INTEGER" property="isAdmin" />
-    <result column="phone_number" jdbcType="INTEGER" property="phoneNumber" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
@@ -18,7 +18,7 @@
       register_time, is_admin, phone_number
       )
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{registerTime,jdbcType=TIMESTAMP}, #{isAdmin,jdbcType=INTEGER}, #{phoneNumber,jdbcType=INTEGER}
+      #{registerTime,jdbcType=TIMESTAMP}, #{isAdmin,jdbcType=INTEGER}, #{phoneNumber,jdbcType=VARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.program.database_homework.domain.entity.User">
@@ -27,83 +27,7 @@
       password = #{password,jdbcType=VARCHAR},
       register_time = #{registerTime,jdbcType=TIMESTAMP},
       is_admin = #{isAdmin,jdbcType=INTEGER},
-      phone_number = #{phoneNumber,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user_name, password, register_time, is_admin, phone_number
-    from user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_name, password, register_time, is_admin, phone_number
-    from user
-  </select>
-  <resultMap id="BaseResultMap" type="com.program.database_homework.domain.entity.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
-    <result column="is_admin" jdbcType="INTEGER" property="isAdmin" />
-    <result column="phone_number" jdbcType="INTEGER" property="phoneNumber" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.program.database_homework.domain.entity.User">
-    insert into user (id, user_name, password, 
-      register_time, is_admin, phone_number
-      )
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{registerTime,jdbcType=TIMESTAMP}, #{isAdmin,jdbcType=INTEGER}, #{phoneNumber,jdbcType=INTEGER}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.program.database_homework.domain.entity.User">
-    update user
-    set user_name = #{userName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      register_time = #{registerTime,jdbcType=TIMESTAMP},
-      is_admin = #{isAdmin,jdbcType=INTEGER},
-      phone_number = #{phoneNumber,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user_name, password, register_time, is_admin, phone_number
-    from user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_name, password, register_time, is_admin, phone_number
-    from user
-  </select>
-  <resultMap id="BaseResultMap" type="com.program.database_homework.domain.entity.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
-    <result column="is_admin" jdbcType="INTEGER" property="isAdmin" />
-    <result column="phone_number" jdbcType="INTEGER" property="phoneNumber" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.program.database_homework.domain.entity.User">
-    insert into user (id, user_name, password, 
-      register_time, is_admin, phone_number
-      )
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{registerTime,jdbcType=TIMESTAMP}, #{isAdmin,jdbcType=INTEGER}, #{phoneNumber,jdbcType=INTEGER}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.program.database_homework.domain.entity.User">
-    update user
-    set user_name = #{userName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      register_time = #{registerTime,jdbcType=TIMESTAMP},
-      is_admin = #{isAdmin,jdbcType=INTEGER},
-      phone_number = #{phoneNumber,jdbcType=INTEGER}
+      phone_number = #{phoneNumber,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

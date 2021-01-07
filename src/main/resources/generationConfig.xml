@@ -50,16 +50,16 @@
         </javaClientGenerator>
 
         <!-- table：指定要逆向分析哪些表，根据表创建javaBean -->
-        <table tableName="address" />
-        <table tableName="food"/>
-        <table tableName="order" />
-        <table tableName="order_link_food"/>
-        <table tableName="order_link_set_meal"/>
-        <table tableName="set_meal"/>
-        <table tableName="set_meal_link_food"/>
-        <table tableName="type"/>
+<!--        <table tableName="address" />-->
+<!--        <table tableName="food"/>-->
+<!--        <table tableName="order" />-->
+<!--        <table tableName="order_link_food"/>-->
+<!--        <table tableName="order_link_set_meal"/>-->
+<!--        <table tableName="set_meal"/>-->
+<!--        <table tableName="set_meal_link_food"/>-->
+<!--        <table tableName="type"/>-->
         <table tableName="user"/>
-        <table tableName="user_link_address"/>
+<!--        <table tableName="user_link_address"/>-->
     </context>
 
 </generatorConfiguration>

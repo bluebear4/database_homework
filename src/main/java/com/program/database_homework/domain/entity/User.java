@@ -1,7 +1,10 @@
 package com.program.database_homework.domain.entity;
 
+import lombok.Builder;
+
 import java.util.Date;
 
+@Builder
 public class User {
     private Integer id;
 
@@ -13,7 +16,7 @@ public class User {
 
     private Integer isAdmin;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     public Integer getId() {
         return id;
@@ -55,11 +58,11 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber == null ? null : phoneNumber.trim();
     }
 }
