@@ -1,5 +1,8 @@
 package com.program.database_homework.domain.entity;
 
+import lombok.Builder;
+
+@Builder
 public class OrderLinkSetMeal {
     private Integer orderId;
 

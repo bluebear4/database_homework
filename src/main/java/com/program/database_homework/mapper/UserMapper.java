@@ -1,5 +1,7 @@
 package com.program.database_homework.mapper;
 
+import com.program.database_homework.domain.entity.Address;
+import com.program.database_homework.domain.entity.Order;
 import com.program.database_homework.domain.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -15,7 +17,16 @@ public interface UserMapper {
 
     User selectByPrimaryKey(Integer id);
 
+
     List<User> selectAll();
+
+    List<User> selectAllUser();
+
+    List<User> selectAllAdmin();
+
+    List<Address> selectAllAddress(Integer id);
+
+    List<Order> selectAllOrder(Integer id);
 
     int updateByPrimaryKey(User record);
 }

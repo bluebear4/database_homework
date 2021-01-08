@@ -9,6 +9,19 @@
     <result column="is_admin" jdbcType="INTEGER" property="isAdmin" />
     <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
   </resultMap>
+  <resultMap id="AddressResultMap" type="com.program.database_homework.domain.entity.Address">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <resultMap id="OrderResultMap" type="com.program.database_homework.domain.entity.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="is_finished" jdbcType="INTEGER" property="isFinished" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where id = #{id,jdbcType=INTEGER}
@@ -38,5 +51,30 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select id, user_name, password, register_time, is_admin, phone_number
     from user
+  </select>
+  <select id="selectAllAddress" resultMap="AddressResultMap">
+    select address.id, address.address
+    from user,user_link_address,address
+    where user.id = #{id,jdbcType=INTEGER}
+    and user.id = user_link_address.user_id
+    and address.id = user_link_address.address_id
+  </select>
+
+  <select id="selectAllOrder" resultMap="OrderResultMap">
+    select `order`.id, `order`.user_id, `order`.address_id, `order`.creat_time, `order`.finish_time, `order`.price, `order`.is_finished
+    from user, `order`
+    where user.id = #{id,jdbcType=INTEGER}
+      and user.id = `order`.user_id
+  </select>
+
+  <select id="selectAllUser" resultMap="BaseResultMap">
+    select id, user_name, password, register_time, is_admin, phone_number
+    from user
+    where is_admin = 0
+  </select>
+  <select id="selectAllAdmin" resultMap="BaseResultMap">
+    select id, user_name, password, register_time, is_admin, phone_number
+    from user
+    where is_admin = 1
   </select>
 </mapper>

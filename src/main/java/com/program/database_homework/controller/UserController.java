@@ -2,10 +2,7 @@ package com.program.database_homework.controller;
 
 import com.program.database_homework.common.result.HttpResult;
 import com.program.database_homework.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Auther: Bluebear
@@ -27,6 +24,39 @@ public class UserController {
             @RequestParam(value = "userName") String userName
             , @RequestParam(value = "password") String password
             , @RequestParam(value = "phoneNumber") String phoneNumber) {
-        return userService.userRegister(userName, password, phoneNumber);
+        return userService.userRegister(userName, password, phoneNumber, 0);
+    }
+
+    @PostMapping("/login")
+    public HttpResult userLogin(
+            @RequestParam(value = "userName") String userName
+            , @RequestParam(value = "password") String password) {
+        return userService.userLogin(userName, password);
+    }
+
+    @PostMapping("/addAddress")
+    public HttpResult userAddAddress(
+            @RequestParam(value = "userId") Integer userId
+            , @RequestParam(value = "address") String address) {
+        return userService.userAddAddress(userId, address);
+    }
+
+    @DeleteMapping("/delAddress")
+    public HttpResult userAddAddress(
+            @RequestParam(value = "userId") Integer userId
+            , @RequestParam(value = "addressId") Integer addressId) {
+        return userService.userDelAddress(userId, addressId);
+    }
+
+    @GetMapping("/getAddress")
+    public HttpResult userGetAddress(
+            @RequestParam(value = "userId") Integer userId) {
+        return userService.userGetAddress(userId);
+    }
+
+    @GetMapping("/getOrder")
+    public HttpResult userGetOrder(
+            @RequestParam(value = "userId") Integer userId) {
+        return userService.userGetOrder(userId);
     }
 }

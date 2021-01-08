@@ -20,7 +20,16 @@ public enum ResultCodeEnum {
     User_Exists_Exception(10001, "用户已存在"),
     User_Not_Exists_Exception(10002, "用户不存在"),
     User_Login_Fail_Exception(10003, "用户名或密码错误"),
-
+    User_User_Name_Empty_Exception(10004, "用户名为空"),
+    User_Password_Empty_Exception(10005, "密码为空"),
+    User_Phone_Number_Empty_Exception(10006, "手机号为空"),
+    User_Password_Too_Short_Exception(10005, "密码长度不足6"),
+    //
+    Address_Empty_Exception(20001, "地址为空"),
+    Address_Not_Exists_Exception(20002, "用户-地址不存在"),
+    Address_Exists_Exception(20003, "用户-地址已存在"),
+    //
+    Order_Empty_Exception(30001, "订单为空"),
 
     ;
 
