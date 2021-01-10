@@ -1,8 +1,11 @@
 package com.program.database_homework.domain.entity;
 
+import lombok.Builder;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Builder
 public class Food {
     private Integer id;
 

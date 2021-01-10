@@ -28,6 +28,12 @@ public class UserServiceImpl implements UserService {
     private UserLinkAddressMapper userLinkAddressMapper;
 
     @Autowired
+    private FoodMapper foodMapper;
+
+    @Autowired
+    private SetMealMapper setMealMapper;
+
+    @Autowired
     private OrderMapper orderMapper;
 
     @Autowired
@@ -155,8 +161,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HttpResult userOrderFood(Integer userId, Integer addressId, List<Food> foods, List<Integer> foodsCount, List<SetMeal> setMeals, List<Integer> setMealsCount) {
-        if (foods.isEmpty() || setMeals.isEmpty()) {
+    public HttpResult userAddOrder(Integer userId, Integer addressId, List<Integer> foodIds, List<Integer> foodsCount, List<Integer> setMealIds, List<Integer> setMealsCount) {
+        if (foodIds.isEmpty() || setMealIds.isEmpty()) {
             HttpResult.failure(ResultCodeEnum.Order_Empty_Exception);
         }
         if (isUser(userId).equals(Boolean.FALSE)) {
@@ -164,12 +170,15 @@ public class UserServiceImpl implements UserService {
         }
         BigDecimal price = new BigDecimal(0);
         //计算总价
-        for (int i = 0; i < foods.size(); i++) {
-            price.add(foods.get(i).getPrice().multiply(BigDecimal.valueOf(foodsCount.get(i))));
+
+        for (int i = 0; i < foodIds.size(); i++) {
+            price = price.add(foodMapper.selectByPrimaryKey(foodIds.get(i)).getPrice()
+                    .multiply(BigDecimal.valueOf(foodsCount.get(i))));
         }
 
-        for (int i = 0; i < setMeals.size(); i++) {
-            price.add(setMeals.get(i).getPrice().multiply(BigDecimal.valueOf(setMealsCount.get(i))));
+        for (int i = 0; i < setMealIds.size(); i++) {
+            price = price.add(setMealMapper.selectByPrimaryKey(setMealIds.get(i)).getPrice()
+                    .multiply(BigDecimal.valueOf(setMealsCount.get(i))));
         }
         Order order = Order.builder()
                 .userId(userId)
@@ -181,21 +190,22 @@ public class UserServiceImpl implements UserService {
         //寻找单号插入关系
         List<Order> orders = orderMapper.selectAll();
         Integer orderId = orders.get(orders.size() - 1).getId();
-        for (int i = 0; i < foods.size(); i++) {
+        for (int i = 0; i < foodIds.size(); i++) {
             OrderLinkFood orderLinkFood = OrderLinkFood.builder()
-                    .foodId(foods.get(i).getId())
+                    .foodId(foodIds.get(i))
                     .orderId(orderId)
                     .count(foodsCount.get(i))
                     .build();
             orderLinkFoodMapper.insert(orderLinkFood);
         }
 
-        for (int i = 0; i < setMeals.size(); i++) {
+        for (int i = 0; i < setMealIds.size(); i++) {
             OrderLinkSetMeal orderLinkSetMeal = OrderLinkSetMeal.builder()
                     .orderId(orderId)
-                    .setMealId(setMeals.get(i).getId())
+                    .setMealId(setMealIds.get(i))
                     .count(setMealsCount.get(i))
                     .build();
+            orderLinkSetMealMapper.insert(orderLinkSetMeal);
         }
         return HttpResult.success();
     }
@@ -205,6 +215,7 @@ public class UserServiceImpl implements UserService {
         if (isUser(userId).equals(Boolean.FALSE)) {
             return HttpResult.failure(ResultCodeEnum.User_Not_Exists_Exception);
         }
+        System.out.println("test");
         return HttpResult.success(userMapper.selectAllOrder(userId));
     }
 

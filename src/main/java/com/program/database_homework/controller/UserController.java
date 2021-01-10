@@ -4,6 +4,8 @@ import com.program.database_homework.common.result.HttpResult;
 import com.program.database_homework.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Auther: Bluebear
  * @Date: 2021/01/06/19:36
@@ -41,6 +43,18 @@ public class UserController {
         return userService.userAddAddress(userId, address);
     }
 
+    @PostMapping("/addOrder")
+    public HttpResult userAddOrder(
+            @RequestParam(value = "userId") Integer userId,
+            @RequestParam(value = "addressId") Integer addressId,
+            @RequestParam(value = "foodIds") List<Integer> foodIds,
+            @RequestParam(value = "foodsCount") List<Integer> foodsCount,
+            @RequestParam(value = "setMealIds") List<Integer> setMealIds,
+            @RequestParam(value = "setMealsCount") List<Integer> setMealsCount
+            ) {
+        return userService.userAddOrder(userId, addressId, foodIds, foodsCount, setMealIds, setMealsCount);
+    }
+
     @DeleteMapping("/delAddress")
     public HttpResult userAddAddress(
             @RequestParam(value = "userId") Integer userId
@@ -53,6 +67,7 @@ public class UserController {
             @RequestParam(value = "userId") Integer userId) {
         return userService.userGetAddress(userId);
     }
+
 
     @GetMapping("/getOrder")
     public HttpResult userGetOrder(

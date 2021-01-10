@@ -30,7 +30,15 @@ public enum ResultCodeEnum {
     Address_Exists_Exception(20003, "用户-地址已存在"),
     //
     Order_Empty_Exception(30001, "订单为空"),
-
+    //
+    Type_Empty_Exception(40001, "类型为空"),
+    Type_Not_Exists_Exception(40002, "类型不存在"),
+    //
+    Food_Empty_Exception(50001, "菜品为空"),
+    Food_Not_Exists_Exception(50002, "菜品不存在"),
+    //
+    Set_Meal_Empty_Exception(60001, "套餐为空"),
+    Set_Meal_Not_Exists_Exception(60002, "套餐不存在"),
     ;
 
     /**

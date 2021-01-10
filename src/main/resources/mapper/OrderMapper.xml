@@ -11,11 +11,11 @@
     <result column="is_finished" jdbcType="INTEGER" property="isFinished" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order
+    delete from `order`
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.program.database_homework.domain.entity.Order">
-    insert into order (id, user_id, address_id, 
+    insert into `order` (id, user_id, address_id,
       creat_time, finish_time, price, 
       is_finished)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
@@ -23,7 +23,7 @@
       #{isFinished,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.program.database_homework.domain.entity.Order">
-    update order
+    update `order`
     set user_id = #{userId,jdbcType=INTEGER},
       address_id = #{addressId,jdbcType=INTEGER},
       creat_time = #{creatTime,jdbcType=TIMESTAMP},
@@ -34,11 +34,11 @@
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, user_id, address_id, creat_time, finish_time, price, is_finished
-    from order
+    from `order`
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, user_id, address_id, creat_time, finish_time, price, is_finished
-    from order
+    from `order`
   </select>
 </mapper>

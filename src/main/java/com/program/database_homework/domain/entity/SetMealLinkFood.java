@@ -1,5 +1,8 @@
 package com.program.database_homework.domain.entity;
 
+import lombok.Builder;
+
+@Builder
 public class SetMealLinkFood {
     private Integer foodId;
 
