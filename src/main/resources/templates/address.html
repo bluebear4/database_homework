@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>地址列表</title>
+
+    <link rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+    <link th:href="@{/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css?v=4.1.0}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>地址</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>地址名</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="address:${addresses.getData()}">
+                            <td th:text="${address.getId()}"></td>
+                            <td th:text="${address.getAddress()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>增加地址</h5>
+                </div>
+                <div class="ibox-content">
+                    <form role="form" method="post" class="form-inline" th:action="@{/user/addAddress}">
+                        <div class="form-group" style="display: none">
+                            <input name="userId" th:value="${session.user.getData().getId()}">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail2" class="sr-only">地址</label>
+                            <input name="address" placeholder="请输入地址" id="exampleInputEmail2"
+                                   class="form-control">
+                        </div>
+                        <button class="btn btn-white" type="submit">增加</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>删除地址</h5>
+                </div>
+                <div class="ibox-content">
+                    <form role="form" method="delete" class="form-inline" th:action="@{/user/delAddress}">
+                        <div class="form-group" style="display: none">
+                            <input name="userId" th:value="${session.user.getData().getId()}">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail2" class="sr-only">id</label>
+                            <input name="addressId" placeholder="请输入id" id="exampleInputEmail2"
+                                   class="form-control">
+                        </div>
+                        <button class="btn btn-white" type="submit">删除</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="gohome">-->
+<!--    <a class="animated bounceInUp" th:href="@{/index}" title="返回首页">-->
+<!--        <i class="fa fa-home"></i>-->
+<!--    </a>-->
+<!--</div>-->
+<!-- 全局js -->
+<script th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/plugins/layer/layer.min.js}"></script>
+
+
+<!-- Peity -->
+<script th:src="@{js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- 自定义js -->
+<script th:src="@{js/content.js?v=1.0.0}"></script>
+
+
+<!-- iCheck -->
+<script th:src="@{js/plugins/iCheck/icheck.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{js/demo/peity-demo.js}"></script>
+
+
+</body>
+
+</html>
+
+

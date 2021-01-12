@@ -24,8 +24,15 @@ public interface UserService {
 
     HttpResult userGetAddress(Integer userId);
 
-    HttpResult userAddOrder(Integer userId, Integer addressId, List<Integer> foodIds, List<Integer> foodsCount, List<Integer> setMealIds, List<Integer> setMealsCount);
+    HttpResult userGetType(Integer userId);
+
+    HttpResult userGetFood(Integer userId);
+
+    HttpResult userGetSetMeal(Integer userId);
+
+    HttpResult userAddOrder(Integer userId, Integer addressId, List<Integer> foodIds, List<Integer> setMealIds);
 
     HttpResult userGetOrder(Integer userId);
 
+    HttpResult userFinishOrder(Integer userId, Integer orderId);
 }

@@ -99,6 +99,14 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public HttpResult adminGetType(Integer id) {
+        if (isAdmin(id).equals(Boolean.FALSE)) {
+            return HttpResult.failure(ResultCodeEnum.User_Not_Exists_Exception);
+        }
+        return HttpResult.success(typeMapper.selectAll());
+    }
+
+    @Override
     public HttpResult adminAddType(Integer id, String typeName) {
         if (typeName == null || typeName.length() == 0) {
             return HttpResult.failure(ResultCodeEnum.Type_Empty_Exception);

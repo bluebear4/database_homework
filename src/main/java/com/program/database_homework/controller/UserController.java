@@ -2,8 +2,11 @@ package com.program.database_homework.controller;
 
 import com.program.database_homework.common.result.HttpResult;
 import com.program.database_homework.service.UserService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -11,7 +14,7 @@ import java.util.List;
  * @Date: 2021/01/06/19:36
  * @Description:
  */
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 
@@ -22,56 +25,92 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public HttpResult userRegister(
+    public String userRegister(
             @RequestParam(value = "userName") String userName
             , @RequestParam(value = "password") String password
-            , @RequestParam(value = "phoneNumber") String phoneNumber) {
-        return userService.userRegister(userName, password, phoneNumber, 0);
+            , @RequestParam(value = "phoneNumber") String phoneNumber, HttpSession session) {
+        userService.userRegister(userName, password, phoneNumber, 0);
+        return userLogin(userName, password, session);
     }
+
 
     @PostMapping("/login")
-    public HttpResult userLogin(
+    public String userLogin(
             @RequestParam(value = "userName") String userName
-            , @RequestParam(value = "password") String password) {
-        return userService.userLogin(userName, password);
+            , @RequestParam(value = "password") String password
+            , HttpSession session) {
+        HttpResult user = userService.userLogin(userName, password);
+        session.setAttribute("user", user);
+        if (user.getSuccess()) {
+            return "userIndex";
+        }
+        return "userLogin";
     }
 
-    @PostMapping("/addAddress")
-    public HttpResult userAddAddress(
+
+    @GetMapping("/delAddress")
+    public String userAddAddress(
             @RequestParam(value = "userId") Integer userId
-            , @RequestParam(value = "address") String address) {
-        return userService.userAddAddress(userId, address);
-    }
-
-    @PostMapping("/addOrder")
-    public HttpResult userAddOrder(
-            @RequestParam(value = "userId") Integer userId,
-            @RequestParam(value = "addressId") Integer addressId,
-            @RequestParam(value = "foodIds") List<Integer> foodIds,
-            @RequestParam(value = "foodsCount") List<Integer> foodsCount,
-            @RequestParam(value = "setMealIds") List<Integer> setMealIds,
-            @RequestParam(value = "setMealsCount") List<Integer> setMealsCount
-            ) {
-        return userService.userAddOrder(userId, addressId, foodIds, foodsCount, setMealIds, setMealsCount);
-    }
-
-    @DeleteMapping("/delAddress")
-    public HttpResult userAddAddress(
-            @RequestParam(value = "userId") Integer userId
-            , @RequestParam(value = "addressId") Integer addressId) {
-        return userService.userDelAddress(userId, addressId);
+            , @RequestParam(value = "addressId") Integer addressId, Model model) {
+        userService.userDelAddress(userId, addressId);
+        HttpResult addresses = userService.userGetAddress(userId);
+        model.addAttribute("addresses", addresses);
+        return "address";
     }
 
     @GetMapping("/getAddress")
-    public HttpResult userGetAddress(
-            @RequestParam(value = "userId") Integer userId) {
-        return userService.userGetAddress(userId);
+    public String userGetAddress(
+            @RequestParam(value = "userId") Integer userId, Model model) {
+        HttpResult addresses = userService.userGetAddress(userId);
+        model.addAttribute("addresses", addresses);
+        return "address";
+    }
+
+    @PostMapping("/addAddress")
+    public String userAddAddress(
+            @RequestParam(value = "userId") Integer userId
+            , @RequestParam(value = "address") String address, Model model) {
+        userService.userAddAddress(userId, address);
+        HttpResult addresses = userService.userGetAddress(userId);
+        model.addAttribute("addresses", addresses);
+        return "address";
+    }
+
+    @GetMapping("/getFood")
+    public String userGetFood(
+            @RequestParam(value = "userId") Integer userId, Model model) {
+        HttpResult addresses = userService.userGetAddress(userId);
+        model.addAttribute("addresses", addresses);
+        HttpResult foods = userService.userGetFood(userId);
+        model.addAttribute("foods", foods);
+        HttpResult types = userService.userGetType(userId);
+        model.addAttribute("types", types);
+        HttpResult setMeals = userService.userGetSetMeal(userId);
+        model.addAttribute("setMeals", setMeals);
+        HttpResult orders = userService.userGetOrder(userId);
+        model.addAttribute("orders", orders);
+        return "food";
     }
 
 
-    @GetMapping("/getOrder")
-    public HttpResult userGetOrder(
-            @RequestParam(value = "userId") Integer userId) {
-        return userService.userGetOrder(userId);
+    @PostMapping("/addOrder")
+    public String userAddOrder(
+            @RequestParam(value = "userId") Integer userId,
+            @RequestParam(value = "addressId") Integer addressId,
+            @RequestParam(value = "foodIds") List<Integer> foodIds,
+            @RequestParam(value = "setMealIds") List<Integer> setMealIds, Model model
+    ) {
+        userService.userAddOrder(userId, addressId, foodIds, setMealIds);
+        return userGetFood(userId, model);
+    }
+
+    @GetMapping("/finishOrder")
+    public String userAddOrder(
+            @RequestParam(value = "userId") Integer userId,
+            @RequestParam(value = "orderId") Integer orderId,
+            Model model
+    ) {
+        userService.userFinishOrder(userId, orderId);
+        return userGetFood(userId, model);
     }
 }

@@ -4,6 +4,7 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 @Builder
 public class SetMeal {
@@ -45,5 +46,18 @@ public class SetMeal {
 
     public void setCreatTime(Date creatTime) {
         this.creatTime = creatTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SetMeal setMeal = (SetMeal) o;
+        return Objects.equals(id, setMeal.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

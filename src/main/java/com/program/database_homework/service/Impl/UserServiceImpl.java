@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -34,7 +34,13 @@ public class UserServiceImpl implements UserService {
     private SetMealMapper setMealMapper;
 
     @Autowired
+    private SetMealLinkFoodMapper setMealLinkFoodMapper;
+
+    @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private TypeMapper typeMapper;
 
     @Autowired
     private OrderLinkFoodMapper orderLinkFoodMapper;
@@ -161,8 +167,49 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HttpResult userAddOrder(Integer userId, Integer addressId, List<Integer> foodIds, List<Integer> foodsCount, List<Integer> setMealIds, List<Integer> setMealsCount) {
-        if (foodIds.isEmpty() || setMealIds.isEmpty()) {
+    public HttpResult userGetType(Integer userId) {
+        if (isUser(userId).equals(Boolean.FALSE)) {
+            return HttpResult.failure(ResultCodeEnum.User_Not_Exists_Exception);
+        }
+        return HttpResult.success(typeMapper.selectAll());
+    }
+
+    @Override
+    public HttpResult userGetFood(Integer userId) {
+        if (isUser(userId).equals(Boolean.FALSE)) {
+            return HttpResult.failure(ResultCodeEnum.User_Not_Exists_Exception);
+        }
+        return HttpResult.success(foodMapper.selectAll());
+    }
+
+    @Override
+    public HttpResult userGetSetMeal(Integer userId) {
+        if (isUser(userId).equals(Boolean.FALSE)) {
+            return HttpResult.failure(ResultCodeEnum.User_Not_Exists_Exception);
+        }
+        Map<SetMeal, List<String>> result = new HashMap<SetMeal, List<String>>();
+        List<SetMealLinkFood> setMealLinkFoods = setMealLinkFoodMapper.selectAll();
+        List<SetMeal> setMeals = setMealMapper.selectAll();
+        List<Food> foods = foodMapper.selectAll();
+        for (SetMeal setMeal : setMeals) {
+            List<String> value = new ArrayList<>();
+            for (SetMealLinkFood setMealLinkFood : setMealLinkFoods) {
+                if (setMealLinkFood.getSetMealId().equals(setMeal.getId())) {
+                    for (Food food : foods) {
+                        if (food.getId().equals(setMealLinkFood.getFoodId())) {
+                            value.add(food.getFoodName());
+                        }
+                    }
+                }
+            }
+            result.put(setMeal, value);
+        }
+        return HttpResult.success(result);
+    }
+
+    @Override
+    public HttpResult userAddOrder(Integer userId, Integer addressId, List<Integer> foodIds, List<Integer> setMealIds) {
+        if (foodIds.isEmpty() && setMealIds.isEmpty()) {
             HttpResult.failure(ResultCodeEnum.Order_Empty_Exception);
         }
         if (isUser(userId).equals(Boolean.FALSE)) {
@@ -170,16 +217,16 @@ public class UserServiceImpl implements UserService {
         }
         BigDecimal price = new BigDecimal(0);
         //计算总价
+        for (Integer foodId : foodIds) {
+            if (foodId < 0) break;
+            price = price.add(foodMapper.selectByPrimaryKey(foodId).getPrice());
+        }
+        for (Integer setMealId : setMealIds) {
+            if (setMealId < 0) break;
+            price = price.add(setMealMapper.selectByPrimaryKey(setMealId).getPrice());
 
-        for (int i = 0; i < foodIds.size(); i++) {
-            price = price.add(foodMapper.selectByPrimaryKey(foodIds.get(i)).getPrice()
-                    .multiply(BigDecimal.valueOf(foodsCount.get(i))));
         }
 
-        for (int i = 0; i < setMealIds.size(); i++) {
-            price = price.add(setMealMapper.selectByPrimaryKey(setMealIds.get(i)).getPrice()
-                    .multiply(BigDecimal.valueOf(setMealsCount.get(i))));
-        }
         Order order = Order.builder()
                 .userId(userId)
                 .addressId(addressId)
@@ -191,19 +238,21 @@ public class UserServiceImpl implements UserService {
         List<Order> orders = orderMapper.selectAll();
         Integer orderId = orders.get(orders.size() - 1).getId();
         for (int i = 0; i < foodIds.size(); i++) {
+            if (foodIds.get(i) < 0) break;
             OrderLinkFood orderLinkFood = OrderLinkFood.builder()
                     .foodId(foodIds.get(i))
                     .orderId(orderId)
-                    .count(foodsCount.get(i))
+                    .count(1)
                     .build();
             orderLinkFoodMapper.insert(orderLinkFood);
         }
 
         for (int i = 0; i < setMealIds.size(); i++) {
+            if (setMealIds.get(i) < 0) break;
             OrderLinkSetMeal orderLinkSetMeal = OrderLinkSetMeal.builder()
                     .orderId(orderId)
                     .setMealId(setMealIds.get(i))
-                    .count(setMealsCount.get(i))
+                    .count(1)
                     .build();
             orderLinkSetMealMapper.insert(orderLinkSetMeal);
         }
@@ -215,8 +264,51 @@ public class UserServiceImpl implements UserService {
         if (isUser(userId).equals(Boolean.FALSE)) {
             return HttpResult.failure(ResultCodeEnum.User_Not_Exists_Exception);
         }
-        System.out.println("test");
-        return HttpResult.success(userMapper.selectAllOrder(userId));
+        List<Food> foods = foodMapper.selectAll();
+        Map<Integer, String> foodName = new HashMap<>();
+        for (Food food : foods) {
+            foodName.put(food.getId(),food.getFoodName());
+        }
+
+
+        List<SetMeal> setMeals = setMealMapper.selectAll();
+        Map<Integer, String> setMealName = new HashMap<>();
+        for (SetMeal setMeal : setMeals) {
+            setMealName.put(setMeal.getId(),setMeal.getSetMealName());
+        }
+
+
+        List<Order> orders = userMapper.selectAllOrder(userId);
+        Map<Order, List<String>> result = new HashMap<Order, List<String>>();
+        List<OrderLinkFood> orderLinkFoods = orderLinkFoodMapper.selectAll();
+        List<OrderLinkSetMeal> orderLinkSetMeals = orderLinkSetMealMapper.selectAll();
+
+        for (Order order : orders) {
+            List<String> value= new ArrayList<>();
+            for (OrderLinkFood orderLinkFood : orderLinkFoods) {
+                if(order.getId().equals(orderLinkFood.getOrderId())){
+                    value.add(foodName.get(orderLinkFood.getFoodId()));
+                }
+            }
+            for (OrderLinkSetMeal orderLinkSetMeal : orderLinkSetMeals) {
+                if(order.getId().equals(orderLinkSetMeal.getOrderId())){
+                    value.add(setMealName.get(orderLinkSetMeal.getSetMealId()));
+                }
+            }
+            result.put(order,value);
+        }
+        return HttpResult.success(result);
+    }
+
+    @Override
+    public HttpResult userFinishOrder(Integer userId, Integer orderId) {
+        if (isUser(userId).equals(Boolean.FALSE)) {
+            return HttpResult.failure(ResultCodeEnum.User_Not_Exists_Exception);
+        }
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        order.setIsFinished(1);
+        orderMapper.updateByPrimaryKey(order);
+        return HttpResult.success();
     }
 
 }

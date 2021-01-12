@@ -17,7 +17,6 @@ public interface UserMapper {
 
     User selectByPrimaryKey(Integer id);
 
-
     List<User> selectAll();
 
     List<User> selectAllUser();
