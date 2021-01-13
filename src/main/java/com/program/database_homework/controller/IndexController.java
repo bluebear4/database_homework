@@ -11,23 +11,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 
-    @RequestMapping({"/","userLogin"})
-    public String login(){
+    @RequestMapping({"/", "userLogin"})
+    public String userLogin() {
         return "userLogin";
     }
 
-    @RequestMapping("/index")
-    public String index(){
-        return "userIndex";
-    }
-
     @RequestMapping("/userRegister")
-    public String userRegister(){
+    public String userRegister() {
         return "userRegister";
     }
 
+    @RequestMapping({"/admin", "adminLogin"})
+    public String adminLogin() {
+        return "adminLogin";
+    }
+
+    @RequestMapping("/adminRegister")
+    public String adminRegister() {
+        return "adminRegister";
+    }
+
+    @RequestMapping("/index")
+    public String userIndex() {
+        return "userIndex";
+    }
+
+    @RequestMapping("/adminIndex")
+    public String adminIndex() {
+        return "adminIndex";
+    }
+
+
     @RequestMapping("/welcome")
-    public String welcome(){
+    public String welcome() {
         return "welcome";
     }
 }

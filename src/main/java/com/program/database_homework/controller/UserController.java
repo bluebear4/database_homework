@@ -89,7 +89,7 @@ public class UserController {
         model.addAttribute("setMeals", setMeals);
         HttpResult orders = userService.userGetOrder(userId);
         model.addAttribute("orders", orders);
-        return "food";
+        return "userFood_Order";
     }
 
 

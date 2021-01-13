@@ -28,7 +28,7 @@ public interface AdminService {
 
     HttpResult adminDelFood(Integer id, Integer foodId);
 
-    HttpResult adminAddSetMeal(Integer id, String setMealName, List<Integer> foodIds);
+    HttpResult adminAddSetMeal(Integer id,BigDecimal price, String setMealName, List<Integer> foodIds);
 
     HttpResult adminDelSetMeal(Integer id, Integer setMealId);
 

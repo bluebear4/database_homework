@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>菜品-订单列表</title>
+
+
+    <link rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+    <link th:href="@{/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet">
+
+    <link th:href="@{/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/plugins/chosen/chosen.css}" rel="stylesheet">
+    <link th:href="@{/css/plugins/colorpicker/css/bootstrap-colorpicker.min.css}" rel="stylesheet">
+    <link th:href="@{/css/plugins/cropper/cropper.min.css}" rel="stylesheet">
+    <link th:href="@{/css/plugins/switchery/switchery.css}" rel="stylesheet">
+    <link th:href="@{/css/plugins/jasny/jasny-bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css?v=4.1.0}" rel="stylesheet">
+
+
+    <link th:href="@{/css/plugins/footable/footable.core.css}" rel="stylesheet">
+</head>
+
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>类型</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>类型id</th>
+                            <th>类型名</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="type:${types.getData()}">
+                            <td th:text="${type.getId()}"></td>
+                            <td th:text="${type.getTypeName()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>菜品</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>菜品id</th>
+                            <th>菜品名</th>
+                            <th>类型id</th>
+                            <th>单价</th>
+                            <th>上线时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="food:${foods.getData()}">
+                            <td th:text="${food.getId()}"></td>
+                            <td th:text="${food.getFoodName()}"></td>
+                            <div th:each="type:${types.getData()}">
+                                <td th:text="${type.getTypeName()}" th:if="${type.getId() == food.getTypeId()}"></td>
+                            </div>
+                            <td th:text="${food.getPrice()}"></td>
+                            <td th:text="${#dates.format(food.getCreatTime(), 'yyyy-MM-dd')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>套餐</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="8">
+                        <thead>
+                        <tr>
+                            <th data-toggle="true">套餐id</th>
+                            <th>套餐名</th>
+                            <th>价格</th>
+                            <th>上线时间</th>
+                            <th data-hide="all">包括</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="setMeal:${setMeals.getData().keySet()}">
+                            <td th:text="${setMeal.getId()}"></td>
+                            <td th:text="${setMeal.getSetMealName()}"></td>
+                            <td th:text="${setMeal.getPrice()}"></td>
+                            <td th:text="${#dates.format(setMeal.getCreatTime(), 'yyyy-MM-dd')}"></td>
+                            <td th:text="${setMeals.getData().get(setMeal)}"></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>类型</h5>
+                </div>
+                <div class="ibox-content">
+                    <label>新增类型</label>
+                    <form role="form" method="post" class="form-inline" th:action="@{/admin/addType}">
+                        <div class="form-group" style="display: none">
+                            <input name="userId" th:value="${session.admin.getData().getId()}">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail2" class="sr-only">增加类型</label>
+                            <input name="typeName" placeholder="请输入类型名" id="exampleInputEmail2"
+                                   class="form-control">
+                        </div>
+                        <button class="btn btn-primary" type="submit">增加类型</button>
+                    </form>
+                </div>
+                <div class="ibox-content">
+                    <label>删除类型</label>
+                    <form role="form" method="post" class="form-inline" th:action="@{/admin/delType}">
+                        <div class="form-group" style="display: none">
+                            <input name="userId" th:value="${session.admin.getData().getId()}">
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select id="#1" name="typeId" data-placeholder="选择类型..." class="chosen-select"
+                                        style="width:350px;"
+                                        tabindex="2">
+                                    <option value="">请选择类型</option>
+                                    <div th:each="type:${types.getData()}">
+                                        <option th:value="${type.getId()}" hassubinfo="true"
+                                                th:text="${type.getTypeName()}"></option>
+                                    </div>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-danger" type="submit">删除类型</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>菜品</h5>
+                </div>
+                <div class="ibox-content">
+                    <label>新增菜品</label>
+                    <form role="form" method="post" class="form-inline"
+                          th:action="@{/admin/addFood}">
+                        <div class="form-group" style="display: none">
+                            <input name="userId" th:value="${session.admin.getData().getId()}">
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select id="#1" name="typeId" data-placeholder="选择类型..." class="chosen-select"
+                                        style="width:350px;"
+                                        tabindex="2">
+                                    <option value="">请选择类型</option>
+                                    <div th:each="type:${types.getData()}">
+                                        <option th:value="${type.getId()}" hassubinfo="true"
+                                                th:text="${type.getTypeName()}"></option>
+                                    </div>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input name="foodName" placeholder="请输入菜品名字" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input name="price" step="0.01" type="number" placeholder="请输入菜品价格" class="form-control">
+                        </div>
+                        <button class="btn btn-primary" type="submit">增加菜品
+                        </button>
+                    </form>
+                </div>
+                <div class="ibox-content">
+                    <label>删除菜品</label>
+                    <form role="form" method="post" class="form-inline" th:action="@{/admin/delFood}">
+                        <div class="form-group" style="display: none">
+                            <input name="userId" th:value="${session.admin.getData().getId()}">
+                        </div>
+                        <div class="input-group">
+                            <select name="foodId" data-placeholder="选择菜品..." class="chosen-select"
+                                    style="width:350px;"
+                                    tabindex="2">
+                                <option value="">请选择菜品</option>
+                                <div th:each="food:${foods.getData()}">
+                                    <option th:value="${food.getId()}" hassubinfo="true"
+                                            th:text="${food.getFoodName()}"></option>
+                                </div>
+                            </select>
+                        </div>
+                        <button class="btn btn-danger" type="submit">删除菜品</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>套餐</h5>
+                </div>
+                <div class="ibox-content">
+                    <label>新增套餐</label>
+                    <form role="form" method="post" class="form-inline"
+                          th:action="@{/admin/addSetMeal}">
+                        <div class="form-group" style="display: none">
+                            <input name="userId" th:value="${session.admin.getData().getId()}">
+                        </div>
+                        <div class="form-group">
+                            <input name="setMealName" placeholder="请输入套餐名字" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input name="price" step="0.01" type="number" placeholder="请输入菜品价格" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select value="-1" id="#2" name="foodIds" data-placeholder="选择菜品" class="chosen-select"
+                                        multiple
+                                        style="width:350px;"
+                                        tabindex="4">
+                                    <option value="-1">请选择菜品</option>
+                                    <div th:each="food:${foods.getData()}">
+                                        <option th:value="${food.getId()}" hassubinfo="true"
+                                                th:text="${food.getFoodName()}"></option>
+                                    </div>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit">增加套餐
+                        </button>
+                    </form>
+                </div>
+                <div class="ibox-content">
+                    <label>删除套餐</label>
+                    <form role="form" method="post" class="form-inline" th:action="@{/admin/delSetMeal}">
+                        <div class="form-group" style="display: none">
+                            <input name="userId" th:value="${session.admin.getData().getId()}">
+                        </div>
+                        <div class="input-group">
+                            <select name="setMealId" data-placeholder="选择套餐..." class="chosen-select"
+                                    style="width:350px;"
+                                    tabindex="2">
+                                <option value="">请选择套餐</option>
+                                <div th:each="setMeal:${setMeals.getData().keySet()}">
+                                    <option th:value="${setMeal.getId()}" hassubinfo="true"
+                                            th:text="${setMeal.getSetMealName()}"></option>
+                                </div>
+                            </select>
+                        </div>
+                        <button class="btn btn-danger" type="submit">删除套餐</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 全局js -->
+<script th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
+<script th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/plugins/layer/layer.min.js}"></script>
+<script th:src="@{/js/plugins/footable/footable.all.min.js}"></script>
+
+
+<!-- 自定义js -->
+<script th:src="@{/js/content.js?v=1.0.0}"></script>
+<script>
+    $(document).ready(function () {
+        $('.footable').footable();
+        $('.footable2').footable();
+    });
+</script>
+<script>
+    function check() {
+        if (document.getElementById('#1').value == ''
+            || (document.getElementById('#2').value == ''
+                && document.getElementById('#3').value == '')) {
+            return false;
+        } else {
+            if (document.getElementById('#2').value == '') {
+                document.getElementById('#2').value = -1;
+            }
+            if (document.getElementById('#3').value == '') {
+                document.getElementById('#3').value = -1;
+            }
+            return true;
+        }
+    }
+</script>
+
+
+<!-- Chosen -->
+<script th:src="@{/js/plugins/chosen/chosen.jquery.js}"></script>
+
+
+<!-- MENU -->
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+
+
+<!-- Image cropper -->
+<script th:src="@{/js/plugins/cropper/cropper.min.js}"></script>
+
+<script th:src="@{/js/demo/form-advanced-demo.js}"></script>
+
+
+</body>
+
+</html>
+
+

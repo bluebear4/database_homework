@@ -171,7 +171,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public HttpResult adminAddSetMeal(Integer id, String setMealName, List<Integer> foodIds) {
+    public HttpResult adminAddSetMeal(Integer id, BigDecimal price, String setMealName, List<Integer> foodIds) {
         if (isAdmin(id).equals(Boolean.FALSE)) {
             return HttpResult.failure(ResultCodeEnum.User_Not_Exists_Exception);
         }
@@ -180,13 +180,6 @@ public class AdminServiceImpl implements AdminService {
         }
         if (foodIds.isEmpty() == true) {
             return HttpResult.failure(ResultCodeEnum.Food_Empty_Exception);
-        }
-        BigDecimal price = new BigDecimal(0);
-        List<Food> foods = foodMapper.selectAll();
-        for (Food food : foods) {
-            if (foodIds.contains(food.getId())) {
-                price = price.add(food.getPrice());
-            }
         }
         SetMeal setMeal = SetMeal.builder()
                 .setMealName(setMealName)

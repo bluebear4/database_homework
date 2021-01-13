@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     private OrderLinkSetMealMapper orderLinkSetMealMapper;
 
     private Boolean isUser(Integer userId) {
-        List<User> users = userMapper.selectAllUser();
+        List<User> users = userMapper.selectAll();
         for (User user : users) {
             if (user.getId().equals(userId)) {
                 return Boolean.TRUE;
